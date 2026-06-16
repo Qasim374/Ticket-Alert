@@ -7,6 +7,12 @@ export async function POST(request) {
   if (!sub?.endpoint) {
     return NextResponse.json({ error: "invalid subscription" }, { status: 400 });
   }
-  await addTicketSubscription(sub);
-  return NextResponse.json({ ok: true });
+  try {
+    await addTicketSubscription(sub);
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    // Surface the real cause (e.g. a database error) instead of a generic 500.
+    console.error("[subscribe] save failed:", err);
+    return NextResponse.json({ error: String(err?.message || err) }, { status: 500 });
+  }
 }

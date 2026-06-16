@@ -68,7 +68,10 @@ export default function TicketSubscribeButton() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(sub),
       });
-      if (!res.ok) throw new Error("Failed to save subscription.");
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Failed to save subscription.");
+      }
 
       setStatus("on");
       setMessage("You're subscribed! You'll be alerted the moment tickets drop.");
