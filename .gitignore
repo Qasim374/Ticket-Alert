@@ -2,3 +2,6 @@ node_modules
 .next
 .env.local
 data/db.json
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
